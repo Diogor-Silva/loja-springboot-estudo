@@ -1,5 +1,6 @@
 package com.estudo.loja.service;
 
+import com.estudo.loja.dto.UsuarioDTO;
 import com.estudo.loja.entity.Usuario;
 import com.estudo.loja.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,11 @@ public class UsuarioService {
         this.repository = repository;
     }
 
-    public List<Usuario> listar() {
-        return repository.findAll();
+    public List<UsuarioDTO> listar() {
+        return repository.findAll()
+                .stream()
+                .map(UsuarioDTO::new)
+                .toList();
     }
 
     public Usuario salvar(Usuario usuario) {
@@ -24,7 +28,6 @@ public class UsuarioService {
     }
 
     public Usuario atualizar(Long id, Usuario usuario) {
-
         Usuario usuarioBanco = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
@@ -36,11 +39,6 @@ public class UsuarioService {
     }
 
     public void excluir(Long id) {
-
-        if (!repository.existsById(id)) {
-            throw new RuntimeException("Usuário não encontrado");
-        }
-
         repository.deleteById(id);
     }
 }

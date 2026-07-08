@@ -1,5 +1,6 @@
 package com.estudo.loja.controller;
 
+import com.estudo.loja.dto.UsuarioDTO;
 import com.estudo.loja.entity.Usuario;
 import com.estudo.loja.service.UsuarioService;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<Usuario> listar() {
+    public List<UsuarioDTO> listar() {
         return service.listar();
     }
 
@@ -27,7 +28,8 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public Usuario atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
+    public Usuario atualizar(@PathVariable Long id,
+                             @RequestBody Usuario usuario) {
         return service.atualizar(id, usuario);
     }
 
