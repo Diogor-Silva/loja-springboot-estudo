@@ -3,6 +3,7 @@ package com.estudo.loja.controller;
 import com.estudo.loja.dto.ClienteDTO;
 import com.estudo.loja.entity.Cliente;
 import com.estudo.loja.service.ClienteService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,7 +35,8 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
-    public void excluir(@PathVariable Long id) {
+    public ResponseEntity<String> excluir(@PathVariable Long id) {
         service.excluir(id);
+        return ResponseEntity.ok("Produto excluído com sucesso.");
     }
 }

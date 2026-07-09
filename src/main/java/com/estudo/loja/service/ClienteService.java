@@ -1,5 +1,7 @@
 package com.estudo.loja.service;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import com.estudo.loja.dto.ClienteDTO;
 import com.estudo.loja.entity.Cliente;
 import com.estudo.loja.repository.ClienteRepository;
@@ -29,7 +31,10 @@ public class ClienteService {
 
     public Cliente atualizar(Long id, Cliente cliente) {
         Cliente clienteBanco = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Cliente com id " + id + " não encontrado"
+                ));
 
         clienteBanco.setNome(cliente.getNome());
         clienteBanco.setEmail(cliente.getEmail());
@@ -43,7 +48,10 @@ public class ClienteService {
 
     public void excluir(Long id) {
         Cliente cliente = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Cliente com id " + id + " não encontrado"
+                ));
 
         repository.delete(cliente);
     }
