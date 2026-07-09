@@ -3,6 +3,7 @@ package com.estudo.loja.controller;
 import com.estudo.loja.dto.ProdutoDTO;
 import com.estudo.loja.entity.Produto;
 import com.estudo.loja.service.ProdutoService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,13 +24,13 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public Produto salvar(@RequestBody Produto produto) {
+    public Produto salvar(@Valid @RequestBody Produto produto) {
         return service.salvar(produto);
     }
 
     @PutMapping("/{id}")
     public Produto atualizar(@PathVariable Long id,
-                             @RequestBody Produto produto) {
+                             @Valid @RequestBody Produto produto) {
         return service.atualizar(id, produto);
     }
 

@@ -26,6 +26,14 @@ public class ClienteService {
     }
 
     public Cliente salvar(Cliente cliente) {
+        if (repository.existsByCpf(cliente.getCpf())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF já cadastrado");
+        }
+
+        if (repository.existsByEmail(cliente.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "E-mail já cadastrado");
+        }
+
         return repository.save(cliente);
     }
 
@@ -35,6 +43,14 @@ public class ClienteService {
                         HttpStatus.NOT_FOUND,
                         "Cliente com id " + id + " não encontrado"
                 ));
+
+        if (!clienteBanco.getCpf().equals(cliente.getCpf()) && repository.existsByCpf(cliente.getCpf())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF já cadastrado");
+        }
+
+        if (!clienteBanco.getEmail().equals(cliente.getEmail()) && repository.existsByEmail(cliente.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "E-mail já cadastrado");
+        }
 
         clienteBanco.setNome(cliente.getNome());
         clienteBanco.setEmail(cliente.getEmail());
