@@ -1,0 +1,7 @@
+package com.estudo.loja.repository;
+
+import com.estudo.loja.entity.ItemCaixa;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ItemCaixaRepository extends JpaRepository<ItemCaixa, Long> {
+}
