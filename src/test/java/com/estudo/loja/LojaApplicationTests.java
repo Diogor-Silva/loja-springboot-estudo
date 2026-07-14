@@ -8,6 +8,7 @@ class LojaApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }
