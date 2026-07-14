@@ -1,9 +1,10 @@
 package com.estudo.loja.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.estudo.loja.enums.PerfilUsuario;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,16 @@ public class Usuario {
 
     private String nome;
 
+    @NotBlank(message = "E-mail é obrigatório")
+    @Email(message = "E-mail inválido")
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @NotBlank(message = "Senha é obrigatória")
+    @Column(nullable = false)
     private String senha;
+
+    @NotNull(message = "Perfil é obrigatório")
+    @Enumerated(EnumType.STRING)
+    private PerfilUsuario perfil;
 }

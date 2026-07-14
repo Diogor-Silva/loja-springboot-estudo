@@ -3,6 +3,7 @@ package com.estudo.loja.controller;
 import com.estudo.loja.dto.UsuarioDTO;
 import com.estudo.loja.entity.Usuario;
 import com.estudo.loja.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public Usuario salvar(@RequestBody Usuario usuario) {
+    public Usuario salvar(@Valid @RequestBody Usuario usuario) {
         return service.salvar(usuario);
     }
 
