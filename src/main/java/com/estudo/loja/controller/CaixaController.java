@@ -2,6 +2,7 @@ package com.estudo.loja.controller;
 
 import com.estudo.loja.dto.CaixaRequest;
 import com.estudo.loja.dto.ResumoDashboardDTO;
+import com.estudo.loja.dto.VendaDTO;
 import com.estudo.loja.entity.Caixa;
 import com.estudo.loja.service.CaixaService;
 import jakarta.validation.Valid;
@@ -29,7 +30,7 @@ public class CaixaController {
     }
 
     @GetMapping
-    public List<Caixa> listar() {
+    public List<VendaDTO> listar() {
         return service.listar();
     }
 

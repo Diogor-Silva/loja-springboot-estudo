@@ -3,6 +3,7 @@ package com.estudo.loja.service;
 import com.estudo.loja.dto.CaixaRequest;
 import com.estudo.loja.dto.ItemCaixaRequest;
 import com.estudo.loja.dto.ResumoDashboardDTO;
+import com.estudo.loja.dto.VendaDTO;
 import com.estudo.loja.entity.Caixa;
 import com.estudo.loja.entity.Cliente;
 import com.estudo.loja.entity.ItemCaixa;
@@ -130,8 +131,11 @@ public class CaixaService {
     }
 
     @Transactional(readOnly = true)
-    public List<Caixa> listar() {
-        return caixaRepository.findAll();
+    public List<VendaDTO> listar() {
+        return caixaRepository.listarComDetalhes()
+                .stream()
+                .map(VendaDTO::new)
+                .toList();
     }
 
     @Transactional(readOnly = true)
@@ -139,6 +143,7 @@ public class CaixaService {
         LocalDate hoje = LocalDate.now();
 
         LocalDateTime inicioDoDia = hoje.atStartOfDay();
+
         LocalDateTime inicioDoProximoDia = hoje
                 .plusDays(1)
                 .atStartOfDay();

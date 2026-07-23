@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface CaixaRepository extends JpaRepository<Caixa, Long> {
 
@@ -27,4 +28,14 @@ public interface CaixaRepository extends JpaRepository<Caixa, Long> {
             @Param("inicio") LocalDateTime inicio,
             @Param("fim") LocalDateTime fim
     );
+
+    @Query("""
+            SELECT DISTINCT c
+            FROM Caixa c
+            LEFT JOIN FETCH c.cliente
+            LEFT JOIN FETCH c.itens i
+            LEFT JOIN FETCH i.produto
+            ORDER BY c.dataVenda DESC
+            """)
+    List<Caixa> listarComDetalhes();
 }
