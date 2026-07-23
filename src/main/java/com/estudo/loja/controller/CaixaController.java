@@ -1,9 +1,11 @@
 package com.estudo.loja.controller;
 
-
 import com.estudo.loja.dto.CaixaRequest;
+import com.estudo.loja.dto.ResumoDashboardDTO;
 import com.estudo.loja.entity.Caixa;
 import com.estudo.loja.service.CaixaService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,12 +21,20 @@ public class CaixaController {
     }
 
     @PostMapping
-    public Caixa finalizarVenda(@RequestBody CaixaRequest request) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Caixa finalizarVenda(
+            @Valid @RequestBody CaixaRequest request
+    ) {
         return service.finalizarVenda(request);
     }
 
     @GetMapping
     public List<Caixa> listar() {
         return service.listar();
+    }
+
+    @GetMapping("/resumo-dashboard")
+    public ResumoDashboardDTO obterResumoDashboard() {
+        return service.obterResumoDashboard();
     }
 }

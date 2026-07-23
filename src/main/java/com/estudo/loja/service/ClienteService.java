@@ -5,6 +5,8 @@ import com.estudo.loja.dto.ClienteRequest;
 import com.estudo.loja.dto.EnderecoRequest;
 import com.estudo.loja.entity.Cliente;
 import com.estudo.loja.entity.Endereco;
+import com.estudo.loja.exception.RegraNegocioException;
+import com.estudo.loja.repository.CaixaRepository;
 import com.estudo.loja.repository.ClienteRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,14 @@ import java.util.Locale;
 public class ClienteService {
 
     private final ClienteRepository repository;
+    private final CaixaRepository caixaRepository;
 
-    public ClienteService(ClienteRepository repository) {
+    public ClienteService(
+            ClienteRepository repository,
+            CaixaRepository caixaRepository
+    ) {
         this.repository = repository;
+        this.caixaRepository = caixaRepository;
     }
 
     @Transactional(readOnly = true)
@@ -96,6 +103,17 @@ public class ClienteService {
     @Transactional
     public void excluir(Long id) {
         Cliente cliente = buscarEntidade(id);
+
+        if (caixaRepository.existsByClienteId(id)) {
+            throw new RegraNegocioException(
+                    "Não é possível excluir o cliente "
+                            + cliente.getNome()
+                            + " porque ele possui vendas registradas. "
+                            + "Para preservar o histórico das vendas, "
+                            + "mantenha o cliente cadastrado."
+            );
+        }
+
         repository.delete(cliente);
     }
 
